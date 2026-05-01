@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://YOUR-APP.railway.app/api/:path*"
+      "destination": "https://lavish-reverence-production-7930.up.railway.app/api/:path*"
     }
   ]
 }
