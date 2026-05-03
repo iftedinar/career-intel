@@ -64,7 +64,7 @@ async function aiComplete(prompt, maxTokens = 4000, useSearch = true) {
   await getProviders();
 
   // Prefer Anthropic (web search tool + better JSON)
-  if (HAS_ANTHROPIC) {
+ if (HAS_ANTHROPIC && process.env.AI_PROVIDER !== "openai") {
     const tools = useSearch ? [{ type: "web_search_20250305", name: "web_search" }] : [];
     const resp = await _anthropic.messages.create({
       model: "claude-sonnet-4-20250514",
