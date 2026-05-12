@@ -1,4 +1,4 @@
-/**
+career-intel-final/api/server.js                                                                    0000644 0000000 0000000 00000042601 15200535541 015635  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                   /**
  * Career Intel — server.js v5
  *
  * ONLY uses OpenAI. Anthropic removed completely.
@@ -497,3 +497,195 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () =>
   console.log(`Career Intel API → http://localhost:${PORT}`)
 );
+                                                                                                                               career-intel-final/package.json                                                                     0000644 0000000 0000000 00000001071 15175047007 015510  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                   {
+  "name": "career-intel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node api/server.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node api/server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "openai": "^4.52.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "lucide-react": "^0.383.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "vite": "^5.4.0"
+  }
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                       career-intel-final/src/App.jsx                                                                      0000644 0000000 0000000 00000012244 15175570630 015266  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                   import { useState } from "react";
+import { Target, FileText, Bookmark, Zap } from "lucide-react";
+import { useStore } from "./lib/store.js";
+import DocumentsPage from "./pages/DocumentsPage.jsx";
+import OpportunitiesPage from "./pages/OpportunitiesPage.jsx";
+import TrackerPage from "./pages/TrackerPage.jsx";
+
+const NAV = [
+  { id: "opportunities", label: "Opportunities", icon: Target },
+  { id: "documents",     label: "Documents",     icon: FileText },
+  { id: "tracker",       label: "Tracker",       icon: Bookmark },
+];
+
+export default function App() {
+  const [page, setPage] = useState("documents");
+  const { profile, setProfile, opps, setOpps, saved, toggleSave, setStatus, reset } = useStore();
+
+  function handleProfile(p) {
+    setProfile(p);
+    setPage("opportunities");
+  }
+
+  const initials = profile?.name
+    ? profile.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()
+    : "CI";
+
+  const savedCount = Object.keys(saved).length;
+  const oppCount =
+    (opps?.internships?.length || 0) +
+    (opps?.startups?.length || 0) +
+    (opps?.grad_programs?.length || 0);
+
+  return (
+    <div className="shell">
+      {/* Sidebar */}
+      <aside className="side">
+        <div className="logo">
+          <div className="logo-mark">
+            <div className="logo-ico"><Zap size={14} /></div>
+            <div>
+              <div className="logo-name">Career Intel</div>
+              <div className="logo-sub">Personal · v3</div>
+            </div>
+          </div>
+        </div>
+
+        <nav className="nav">
+          {NAV.map(({ id, label, icon: Icon }) => (
+            <div
+              key={id}
+              className={`ni ${page === id ? "on" : ""}`}
+              onClick={() => setPage(id)}
+            >
+              <Icon size={15} style={{ opacity: 0.75, flexShrink: 0 }} />
+              {label}
+              {id === "tracker" && savedCount > 0 && (
+                <span className="nb">{savedCount}</span>
+              )}
+              {id === "opportunities" && oppCount > 0 && (
+                <span className="nb">{oppCount}</span>
+              )}
+            </div>
+          ))}
+        </nav>
+
+        <div className="side-bot">
+          <div className="user-row">
+            <div className="ava">{initials}</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontSize: ".8rem",
+                  color: "var(--tx2)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {profile?.name || "No profile yet"}
+              </div>
+              {profile?.gpa && (
+                <div
+                  style={{
+                    fontSize: ".68rem",
+                    color: "var(--amber)",
+                    fontFamily: "var(--mono)",
+                  }}
+                >
+                  GPA {profile.gpa}
+                </div>
+              )}
+            </div>
+            {profile && (
+              <button
+                className="btn ghost xs"
+                onClick={reset}
+                title="Clear all data"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <main className="main">
+        {/* Profile bar shown on non-document pages */}
+        {profile && page !== "documents" && (
+          <div style={{ padding: ".55rem 2.5rem 0", maxWidth: 940, margin: "0 auto" }}>
+            <div className="pbar-strip">
+              <div
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: "var(--green)",
+                  flexShrink: 0,
+                }}
+              />
+              <strong style={{ color: "var(--tx)" }}>{profile.name}</strong>
+              <span style={{ color: "var(--b3)" }}>·</span>
+              <span>{profile.university}</span>
+              <span style={{ color: "var(--b3)" }}>·</span>
+              <span style={{ fontFamily: "var(--mono)", color: "var(--amber)" }}>
+                GPA {profile.gpa}
+              </span>
+              <span style={{ color: "var(--b3)" }}>·</span>
+              <span style={{ color: "var(--tx3)", fontSize: ".74rem" }}>
+                {profile.visa_status}
+              </span>
+              <button
+                className="btn ghost xs"
+                style={{ marginLeft: "auto" }}
+                onClick={() => setPage("documents")}
+              >
+                Update docs
+              </button>
+            </div>
+          </div>
+        )}
+
+        {page === "documents" && (
+          <DocumentsPage profile={profile} onDone={handleProfile} />
+        )}
+        {page === "opportunities" && (
+          <OpportunitiesPage
+            profile={profile}
+            opps={opps}
+            onRefresh={setOpps}
+            saved={saved}
+            onSave={toggleSave}
+          />
+        )}
+        {page === "tracker" && (
+          <TrackerPage
+            saved={saved}
+            setStatus={setStatus}
+            onRemove={(id) => toggleSave(id, saved[id])}
+          />
+        )}
+      </main>
+    </div>
+  );
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
