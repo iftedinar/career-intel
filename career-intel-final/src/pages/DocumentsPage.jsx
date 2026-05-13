@@ -22,7 +22,7 @@ export default function DocumentsPage({ profile, onDone }) {
       onDone(profile);
       setQueued([]);
     } catch (e) {
-      setErr(`${e.message} — is the API server running on port 3001?`);
+      setErr(`${e.message}`);
     } finally { setParsing(false); }
   }
 
@@ -61,7 +61,7 @@ export default function DocumentsPage({ profile, onDone }) {
             </div>
           ))}
           <button className="btn prim" onClick={parse} disabled={parsing} style={{ marginTop:8 }}>
-            {parsing ? <><span className="spin" /> Parsing with Claude…</> : <><Upload size={14} /> Parse {queued.length} file{queued.length>1?"s":""}</>}
+            {parsing ? <><span className="spin" /> Parsing your documents…</> : <><Upload size={14} /> Parse {queued.length} file{queued.length>1?"s":""}</>}
           </button>
         </div>
       )}
