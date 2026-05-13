@@ -1,331 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Career Intel — Setup Guide</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',system-ui,sans-serif;background:#0f0f0f;color:#eee;line-height:1.6;padding:2rem;min-height:100vh}
-.wrap{max-width:780px;margin:0 auto}
-h1{font-size:2rem;font-weight:400;margin-bottom:.3rem}
-.sub{color:#676360;font-size:.85rem;margin-bottom:2.5rem}
-.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2.5rem}
-.ph{background:#161616;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:1rem;cursor:pointer;transition:.15s;text-align:center}
-.ph:hover,.ph.on{border-color:#e8a020;background:rgba(232,160,32,.08)}
-.ph-num{font-family:'DM Mono';font-size:.7rem;color:#676360;margin-bottom:4px}
-.ph-title{font-size:.9rem;color:#eee}
-.ph.on .ph-title{color:#e8a020}
-.section{display:none}.section.on{display:block}
-.step{display:flex;gap:1rem;margin-bottom:1.5rem}
-.num{width:28px;height:28px;border-radius:50%;background:rgba(232,160,32,.12);border:1px solid rgba(232,160,32,.25);color:#e8a020;font-family:'DM Mono';font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.body{flex:1}
-.title{font-size:.9rem;font-weight:500;color:#eee;margin-bottom:5px}
-.desc{font-size:.82rem;color:#9e9a94;line-height:1.65}
-.desc a{color:#e8a020;text-decoration:underline}
-pre{background:#000;border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:.8rem 1rem;font-family:'DM Mono';font-size:.75rem;color:#e8a020;overflow-x:auto;white-space:pre;line-height:1.6;margin-top:8px;position:relative}
-.copy-btn{position:absolute;top:6px;right:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:5px;color:#9e9a94;font-size:.68rem;padding:2px 8px;cursor:pointer;font-family:'DM Sans'}
-.copy-btn:hover{color:#eee}
-.note{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.18);border-radius:8px;padding:.75rem 1rem;font-size:.81rem;color:#60a5fa;margin-bottom:1.25rem;line-height:1.6}
-.ok{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.18);border-radius:8px;padding:.75rem 1rem;font-size:.81rem;color:#4ade80;margin-top:1.5rem;line-height:1.6}
-.warn{background:rgba(232,160,32,.08);border:1px solid rgba(232,160,32,.2);border-radius:8px;padding:.75rem 1rem;font-size:.81rem;color:#e8a020;margin-bottom:1rem;line-height:1.6}
-.img-mock{background:#161616;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1rem;margin-top:8px;font-size:.75rem;color:#676360;text-align:center;min-height:60px;display:flex;align-items:center;justify-content:center}
-kbd{background:#1e1e1e;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:1px 6px;font-family:'DM Mono';font-size:.75rem;color:#eee}
-strong{color:#eee;font-weight:500}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <h1>Career Intel — Deploy Guide</h1>
-  <p class="sub">Three steps to get your app live. Click each phase to see the instructions.</p>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CAREER INTEL v5 — HOW TO UPDATE EVERYTHING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  <div class="phases">
-    <div class="ph on" onclick="show('github',this)">
-      <div class="ph-num">STEP 1</div>
-      <div class="ph-title">📁 GitHub</div>
-      <div style="font-size:.73rem;color:#676360;margin-top:3px">Upload your code</div>
-    </div>
-    <div class="ph" onclick="show('railway',this)">
-      <div class="ph-num">STEP 2</div>
-      <div class="ph-title">🚂 Railway</div>
-      <div style="font-size:.73rem;color:#676360;margin-top:3px">Deploy the backend</div>
-    </div>
-    <div class="ph" onclick="show('vercel',this)">
-      <div class="ph-num">STEP 3</div>
-      <div class="ph-title">▲ Vercel</div>
-      <div style="font-size:.73rem;color:#676360;margin-top:3px">Deploy the frontend</div>
-    </div>
-  </div>
+THE ROOT CAUSE OF YOUR ERROR:
+  vercel.json has "YOUR-APP.railway.app" as a placeholder.
+  This was never replaced with your real Railway URL.
+  Every API call fails because Vercel sends it to a fake URL.
 
-  <!-- GITHUB -->
-  <div class="section on" id="github">
-    <div class="note">GitHub is where your code lives. Both Railway and Vercel will pull from it automatically — so you only ever edit code in one place.</div>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — FIND YOUR RAILWAY URL (2 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    <div class="step">
-      <div class="num">1</div>
-      <div class="body">
-        <div class="title">Create a GitHub account (if you don't have one)</div>
-        <div class="desc">Go to <a href="https://github.com/signup" target="_blank">github.com/signup</a> — it's free.</div>
-      </div>
-    </div>
+1. Go to railway.app and open your project
+2. Click on your service (the box with your app)
+3. Click the "Settings" tab
+4. Scroll down to "Networking"
+5. You should see a domain like:
+      career-intel-production.up.railway.app
+   If you don't see one, click "Generate Domain"
+6. Copy that full domain name
 
-    <div class="step">
-      <div class="num">2</div>
-      <div class="body">
-        <div class="title">Create a new repository</div>
-        <div class="desc">
-          1. Click the <strong>+</strong> icon in the top-right corner of GitHub<br/>
-          2. Click <strong>New repository</strong><br/>
-          3. Name it <kbd>career-intel</kbd><br/>
-          4. Set it to <strong>Public</strong><br/>
-          5. Click <strong>Create repository</strong>
-        </div>
-      </div>
-    </div>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — EDIT vercel.json (1 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    <div class="step">
-      <div class="num">3</div>
-      <div class="body">
-        <div class="title">Install Git on your computer</div>
-        <div class="desc">
-          Download from <a href="https://git-scm.com/downloads" target="_blank">git-scm.com/downloads</a> and install.<br/>
-          On Mac it may already be installed. Check by opening Terminal and typing <kbd>git --version</kbd>.
-        </div>
-      </div>
-    </div>
+Open vercel.json in any text editor (Notepad, TextEdit, VS Code).
 
-    <div class="step">
-      <div class="num">4</div>
-      <div class="body">
-        <div class="title">Install Node.js</div>
-        <div class="desc">
-          Download the LTS version from <a href="https://nodejs.org" target="_blank">nodejs.org</a> and install.
-        </div>
-      </div>
-    </div>
+Find this line:
+  "REPLACE-WITH-YOUR-RAILWAY-DOMAIN.up.railway.app"
 
-    <div class="step">
-      <div class="num">5</div>
-      <div class="body">
-        <div class="title">Open Terminal and navigate to your project folder</div>
-        <div class="desc">
-          On Mac: open <strong>Terminal</strong> app. On Windows: open <strong>Command Prompt</strong>.<br/>
-          Navigate to where you extracted the career-intel-final folder:
-        </div>
-        <pre>cd Downloads/career-intel-final<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-        <div class="desc" style="margin-top:8px">Tip: type <kbd>cd </kbd> then drag the folder into Terminal — it fills in the path automatically.</div>
-      </div>
-    </div>
+Replace it with your actual domain from Step 1. Example:
+  "career-intel-production.up.railway.app"
 
-    <div class="step">
-      <div class="num">6</div>
-      <div class="body">
-        <div class="title">Push your code to GitHub</div>
-        <div class="desc">Run these commands one by one (replace YOUR-USERNAME with your GitHub username):</div>
-        <pre>git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/career-intel.git
-git push -u origin main<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-        <div class="desc" style="margin-top:8px">It will ask for your GitHub username and password. For password, use a <a href="https://github.com/settings/tokens/new" target="_blank">Personal Access Token</a> (GitHub no longer accepts regular passwords).</div>
-      </div>
-    </div>
+The full file should look like this (with YOUR real domain):
 
-    <div class="step">
-      <div class="num">7</div>
-      <div class="body">
-        <div class="title">Verify it worked</div>
-        <div class="desc">Go to <a href="https://github.com" target="_blank">github.com</a> → your profile → you should see <kbd>career-intel</kbd> with all your files inside.</div>
-      </div>
-    </div>
-
-    <div class="ok">✅ Code is on GitHub! Click <strong>🚂 Railway</strong> above to deploy the backend.</div>
-  </div>
-
-  <!-- RAILWAY -->
-  <div class="section" id="railway">
-    <div class="note">Railway runs the backend — the part that calls Claude AI to search for opportunities. Free tier gives $5/month credit which is more than enough.</div>
-
-    <div class="step">
-      <div class="num">1</div>
-      <div class="body">
-        <div class="title">Get your Anthropic API key</div>
-        <div class="desc">
-          1. Go to <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br/>
-          2. Sign up (free) and add a payment method (you won't be charged immediately)<br/>
-          3. Click <strong>API Keys</strong> → <strong>Create Key</strong><br/>
-          4. Copy the key — it starts with <kbd>sk-ant-api03-...</kbd><br/>
-          5. Save it somewhere safe — you only see it once
-        </div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">2</div>
-      <div class="body">
-        <div class="title">Create a Railway account</div>
-        <div class="desc">Go to <a href="https://railway.app" target="_blank">railway.app</a> → click <strong>Login</strong> → <strong>Login with GitHub</strong>.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">3</div>
-      <div class="body">
-        <div class="title">Create a new project from your GitHub repo</div>
-        <div class="desc">
-          1. Click <strong>New Project</strong><br/>
-          2. Click <strong>Deploy from GitHub repo</strong><br/>
-          3. Select <kbd>career-intel</kbd> from the list<br/>
-          4. Railway will start building automatically
-        </div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">4</div>
-      <div class="body">
-        <div class="title">Add your Anthropic API key as an environment variable</div>
-        <div class="desc">
-          1. Click on your service (the box that appeared)<br/>
-          2. Click the <strong>Variables</strong> tab<br/>
-          3. Click <strong>+ New Variable</strong><br/>
-          4. Name: <kbd>ANTHROPIC_API_KEY</kbd> · Value: your key from Step 1<br/>
-          5. Press Enter — Railway will redeploy automatically
-        </div>
-        <pre>ANTHROPIC_API_KEY = sk-ant-api03-your-actual-key-here<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">5</div>
-      <div class="body">
-        <div class="title">Generate a public domain for your backend</div>
-        <div class="desc">
-          1. Click <strong>Settings</strong> tab on your service<br/>
-          2. Scroll to <strong>Networking</strong> → click <strong>Generate Domain</strong><br/>
-          3. You'll get a URL like: <kbd>career-intel-production.up.railway.app</kbd><br/>
-          <strong>Copy this URL — you need it in the next step!</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">6</div>
-      <div class="body">
-        <div class="title">Test your backend is working</div>
-        <div class="desc">Open your browser and go to your Railway URL + <kbd>/api/health</kbd>:</div>
-        <pre>https://career-intel-production.up.railway.app/api/health<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-        <div class="desc" style="margin-top:8px">You should see: <kbd>{"{"}"status":"ok","time":"2026-..."{"}"}</kbd><br/>If you see that — your backend is live!</div>
-      </div>
-    </div>
-
-    <div class="ok">✅ Backend is running! Click <strong>▲ Vercel</strong> above to deploy the frontend.</div>
-  </div>
-
-  <!-- VERCEL -->
-  <div class="section" id="vercel">
-    <div class="note">Vercel hosts the website (the React frontend). It's free for personal projects and deploys in seconds from GitHub.</div>
-
-    <div class="warn">⚠️ Before this step, you need your Railway URL from Step 2. It looks like: <kbd>career-intel-production.up.railway.app</kbd></div>
-
-    <div class="step">
-      <div class="num">1</div>
-      <div class="body">
-        <div class="title">Update vercel.json with your Railway URL</div>
-        <div class="desc">
-          Open the file <kbd>vercel.json</kbd> in your project folder. Find this line:<br/>
-        </div>
-        <pre>"destination": "https://YOUR-APP.railway.app/api/:path*"<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-        <div class="desc" style="margin-top:8px">Replace <kbd>YOUR-APP</kbd> with your actual Railway subdomain. Example:</div>
-        <pre>"destination": "https://career-intel-production.up.railway.app/api/:path*"<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-        <div class="desc" style="margin-top:8px">Save the file, then push it to GitHub:</div>
-        <pre>git add vercel.json
-git commit -m "add railway url"
-git push<button class="copy-btn" onclick="cp(this)">copy</button></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">2</div>
-      <div class="body">
-        <div class="title">Create a Vercel account</div>
-        <div class="desc">Go to <a href="https://vercel.com" target="_blank">vercel.com</a> → click <strong>Sign Up</strong> → <strong>Continue with GitHub</strong>.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">3</div>
-      <div class="body">
-        <div class="title">Import your project</div>
-        <div class="desc">
-          1. Click <strong>Add New…</strong> → <strong>Project</strong><br/>
-          2. Find <kbd>career-intel</kbd> in the list → click <strong>Import</strong><br/>
-          3. Vercel auto-detects Vite — leave all settings as defaults<br/>
-          4. Click <strong>Deploy</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">4</div>
-      <div class="body">
-        <div class="title">Wait ~60 seconds for it to build</div>
-        <div class="desc">You'll see a progress bar. When it finishes, Vercel shows a "Congratulations" screen with your URL.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">5</div>
-      <div class="body">
-        <div class="title">Open your live app!</div>
-        <div class="desc">
-          Your URL looks like: <kbd>career-intel-xyz.vercel.app</kbd><br/>
-          Click it → you should see Career Intel load.<br/><br/>
-          1. Go to <strong>Documents</strong> → upload your resume PDF and certifications PDF<br/>
-          2. Wait for Claude to parse your profile<br/>
-          3. Go to <strong>Opportunities</strong> → click <strong>Refresh</strong><br/>
-          4. Live results in ~30 seconds 🎉
-        </div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">6</div>
-      <div class="body">
-        <div class="title">Bookmark your URL</div>
-        <div class="desc">
-          Add it to your browser bookmarks. Visit anytime to refresh opportunities.<br/>
-          Every time you push new code with <kbd>git push</kbd>, both Railway and Vercel redeploy automatically.
-        </div>
-      </div>
-    </div>
-
-    <div class="ok" style="font-size:.85rem;line-height:1.8">
-      🎉 <strong>You're live!</strong><br/>
-      💰 Cost: Railway ~$0–1/month · Vercel free · Anthropic ~$0.04 per Refresh<br/>
-      🔄 Future updates: edit code → git push → auto-redeploys in 60 seconds<br/>
-      📱 Works on phone too — just open your Vercel URL in mobile browser
-    </div>
-  </div>
-
-</div>
-
-<script>
-function show(id, el) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
-  document.querySelectorAll('.ph').forEach(p => p.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  el.classList.add('on');
+{
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://career-intel-production.up.railway.app/api/:path*"
+    }
+  ]
 }
-function cp(btn) {
-  const pre = btn.parentElement;
-  const text = pre.childNodes[0].textContent.trim();
-  navigator.clipboard.writeText(text);
-  btn.textContent = 'copied!';
-  setTimeout(() => btn.textContent = 'copy', 2000);
-}
-</script>
-</body>
-</html>
+
+Save the file.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3 — CHECK RAILWAY VARIABLES (2 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Go to Railway → your service → Variables tab.
+
+MUST HAVE:
+  OPENAI_API_KEY = sk-xxxxxxxxxxxxxxxxxxxxxxxx
+  (Get this from platform.openai.com → API Keys)
+
+MUST DELETE (if it exists):
+  ANTHROPIC_API_KEY  ← delete this entirely, click the trash icon
+
+OPTIONAL (add later for real job listings):
+  JSEARCH_KEY        ← from rapidapi.com, free plan
+  ADZUNA_APP_ID      ← from developer.adzuna.com, free
+  ADZUNA_APP_KEY     ← from developer.adzuna.com, free
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 4 — PUSH EVERYTHING TO GITHUB (3 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Open Terminal (Mac) or Command Prompt (Windows).
+Navigate to your project folder:
+  cd path/to/career-intel
+
+Run these commands:
+  git add api/server.js package.json src/App.jsx src/pages/DocumentsPage.jsx vercel.json
+  git commit -m "v5: fix vercel url, openai only, remove anthropic"
+  git push
+
+This triggers:
+  - Railway to redeploy the backend (takes ~60 seconds)
+  - Vercel to rebuild the frontend (takes ~60 seconds)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 5 — CONFIRM IT'S WORKING (1 min)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In your browser, open:
+  https://your-railway-domain.up.railway.app/api/health
+
+You should see:
+  {"status":"ok","version":"v5","openai":"configured",...}
+
+If openai says "configured" — it's working.
+Now go to your Vercel URL and try uploading your resume.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILES CHANGED IN THIS UPDATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  api/server.js              ← REPLACE (OpenAI only, no Anthropic)
+  package.json               ← REPLACE (Anthropic SDK removed)
+  src/App.jsx                ← REPLACE (Deploy Guide tab removed)
+  src/pages/DocumentsPage.jsx← REPLACE (text fix)
+  vercel.json                ← REPLACE + EDIT your Railway URL in it
+
+DO NOT CHANGE:
+  src/index.css              ← keep as is
+  src/lib/api.js             ← keep as is
+  src/lib/store.js           ← keep as is
+  src/pages/OpportunitiesPage.jsx  ← keep as is
+  src/pages/TrackerPage.jsx  ← keep as is
+  src/components/DetailPanel.jsx   ← keep as is
+  src/main.jsx               ← keep as is
+  index.html                 ← keep as is
+  vite.config.js             ← keep as is
+  railway.json               ← keep as is
+  .gitignore                 ← keep as is
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT'S DONE vs WHAT'S LEFT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DONE:
+  ✓ App deployed on Vercel (frontend)
+  ✓ API deployed on Railway (backend)
+  ✓ OpenAI integration (after this update)
+  ✓ Document upload + profile parsing
+  ✓ Opportunity search (internships, startups, grad programs)
+  ✓ Application tracker
+  ✓ Outreach message generator
+
+LEFT TO DO (optional):
+  ○ Add Adzuna API key (free real job listings) — see STEP 3
+  ○ Add JSearch API key (free real job listings) — see STEP 3
+  ○ Multi-user platform version (needs Supabase setup)
+  ○ Weekly email digest (needs Resend.com API key)
